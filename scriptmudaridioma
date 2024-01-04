@@ -1,0 +1,43 @@
+<script>
+	
+// Função para traduzir o nome do mês
+function traduzirMes(mesEmIngles) {
+  var mesesEmPortugues = {
+    "January": "Janeiro", "February": "Fevereiro", "March": "Março", "April": "Abril", 
+    "May": "Maio", "June": "Junho", "July": "Julho", "August": "Agosto", 
+    "September": "Setembro", "October": "Outubro", "November": "Novembro", "December": "Dezembro"
+  };
+
+  return mesesEmPortugues[mesEmIngles];
+}
+
+// Função para observar mudanças no DOM
+function observarMudancas(mutationsList, observer) {
+  for (var mutation of mutationsList) {
+    if (mutation.type === 'childList') {
+      // Busca por todos os elementos com a classe .ui-datepicker-month
+      var spanElements = document.querySelectorAll('.ui-datepicker-month');
+      spanElements.forEach(function(spanElement) {
+        var mesEmIngles = spanElement.textContent.trim();
+        var mesTraduzido = traduzirMes(mesEmIngles);
+        if (mesTraduzido) {
+          spanElement.textContent = mesTraduzido;
+        }
+      });
+    }
+  }
+}
+
+// Configuração do observador para observar mudanças no DOM
+var observer = new MutationObserver(observarMudancas);
+
+// Alvo para observar mudanças - neste caso, o corpo do documento
+var targetNode = document.body;
+
+// Configuração do observador para observar mudanças nos filhos do alvo e subárvores
+var config = { childList: true, subtree: true };
+
+// Inicia a observação no nó alvo com a configuração especificada
+observer.observe(targetNode, config);
+	
+	</script>
